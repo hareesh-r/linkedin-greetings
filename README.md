@@ -23,7 +23,7 @@ async function performClick() {
 performClick();
 ```
 
-## Just a short snippet to send wishes to all of the linkedin conntections.
+## Just a short snippet to send wishes to all of the linkedin conntections on [this page](https://www.linkedin.com/mynetwork/catch-up/all/).
 
 # linkedin-accept-all
 
@@ -35,4 +35,4 @@ document.querySelectorAll('.invitation-card__action-btn').forEach((ele,ind)=>{
 })
 ```
 
-## Just a short snippet to accept all connection requests on (this page)[https://www.linkedin.com/mynetwork/invitation-manager/]
+## Just a short snippet to accept all connection requests on [this page](https://www.linkedin.com/mynetwork/invitation-manager/)
