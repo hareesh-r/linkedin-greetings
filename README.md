@@ -24,3 +24,15 @@ performClick();
 ```
 
 ## Just a short snippet to send wishes to all of the linkedin conntections.
+
+# linkedin-accept-all
+
+```javascript
+document.querySelectorAll('.invitation-card__action-btn').forEach((ele,ind)=>{
+    if(ind%2!=0){
+        ele.click();
+    }
+})
+```
+
+## Just a short snippet to accept all connection requests on (this page)[https://www.linkedin.com/mynetwork/invitation-manager/]
