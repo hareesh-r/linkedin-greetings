@@ -10,14 +10,15 @@ async function performClick() {
 
     for (let ele of greetingButtons) {
         ele.click();
-        await delay(2000); // 2-second delay
+        await delay(1000); // 2-second delay
 
         document.querySelectorAll('[data-view-name="messaging-modal-send-button"]')[0].click();
-        await delay(2000); // 2-second delay
+        await delay(1000); // 2-second delay
 
         document.querySelector('[aria-label="Dismiss"]').click();
-        await delay(2000); // 2-second delay
+        await delay(1000); // 2-second delay
     }
+    alert("All were messages sent!!");
 }
 
 performClick();
