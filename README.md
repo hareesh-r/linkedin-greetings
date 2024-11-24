@@ -5,23 +5,45 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function performClick() {
-    let greetingButtons = document.querySelectorAll('[data-view-name="nurture-card-primary-button"]');
-
-    for (let ele of greetingButtons) {
-        ele.click();
-        await delay(1000); // 2-second delay
-
-        document.querySelectorAll('[data-view-name="messaging-modal-send-button"]')[0].click();
-        await delay(1000); // 2-second delay
-
-        document.querySelector('[aria-label="Dismiss"]').click();
-        await delay(1000); // 2-second delay
+async function safeClick(selector, delayInMillis) {
+    const element = document.querySelector(selector);
+    if (element) {
+        element.click();
+        await delay(delayInMillis);
+    } else {
+        console.warn(`Element not found for selector: ${selector}`);
     }
-    alert("All were messages sent!!");
+}
+
+async function performClick() {
+    const delayInMillis = 500;
+    try {
+        const greetingButtons = document.querySelectorAll('.props-s-cta');
+
+        for (const button of greetingButtons) {
+            if (button.tagName !== 'BUTTON') {
+                console.warn("Skipping non-button element:", button);
+                continue;
+            }
+
+            button.click();
+            await delay(delayInMillis);
+
+            await safeClick('.msg-form__send-button', delayInMillis);
+
+            await safeClick('svg[data-test-icon="close-small"]', delayInMillis, true);
+        }
+
+        alert("All messages were sent!");
+    } catch (error) {
+        console.error("An error occurred, retrying...", error);
+        await delay(2000);
+        await performClick();
+    }
 }
 
 performClick();
+
 ```
 
 ## Just a short snippet to send wishes to all of the linkedin conntections on [this page](https://www.linkedin.com/mynetwork/catch-up/all/).
