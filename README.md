@@ -1,48 +1,38 @@
 # linkedin-greetings
 
 ```javascript
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+(async function() {
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-async function safeClick(selector, delayInMillis) {
-    const element = document.querySelector(selector);
-    if (element) {
-        element.click();
-        await delay(delayInMillis);
-    } else {
-        console.warn(`Element not found for selector: ${selector}`);
-    }
-}
+    async function clickButtons() {
+        const buttons = Array.from(document.querySelectorAll('button[aria-label^="Message"]'));
+        for (let i = 0; i < buttons.length; i++) {
+            const button = buttons[i];
 
-async function performClick() {
-    const delayInMillis = 500;
-    try {
-        const greetingButtons = document.querySelectorAll('.props-s-cta');
+            // Click the "Wish" button
+            button.click();
+            console.log(`Clicked button ${i + 1}`);
 
-        for (const button of greetingButtons) {
-            if (button.tagName !== 'BUTTON') {
-                console.warn("Skipping non-button element:", button);
-                continue;
+            // Wait for the popup to appear
+            await delay(1000);
+
+            // Find the "Send" button in the popup
+            const sendButton = document.querySelector('button[data-view-name="messaging-modal-send-button"]');
+            if (sendButton) {
+                sendButton.click();
+                console.log(`Clicked send button for button ${i + 1}`);
+            } else {
+                console.warn('Send button not found, skipping to the next button');
             }
 
-            button.click();
-            await delay(delayInMillis);
-
-            await safeClick('.msg-form__send-button', delayInMillis);
-
-            await safeClick('svg[data-test-icon="close-small"]', delayInMillis, true);
+            // Wait for the action to complete before proceeding
+            await delay(1000);
         }
-
-        alert("All messages were sent!");
-    } catch (error) {
-        console.error("An error occurred, retrying...", error);
-        await delay(2000);
-        await performClick();
     }
-}
 
-performClick();
+    clickButtons();
+})();
+
 
 ```
 
