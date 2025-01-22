@@ -32,7 +32,7 @@
 
     clickButtons();
 })();
-
+console.clear();
 
 ```
 
